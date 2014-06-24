@@ -11,6 +11,18 @@
 var stringifyJSON = function(obj) {
   // Create starting point for string
   var stringifiedObj = '';
+
+  if (typeof obj === "number" || typeof obj === "boolean") {
+    stringifiedObj = stringifiedObj + obj;
+  }
+
+  else if (typeof obj === "string" || (typeof obj === "object" && obj === null)) {
+    stringifiedObj = stringifiedObj + '"' + obj + '"';
+  }
+
+  else if (typeof obj === "undefined") {
+    stringifiedObj = stringifiedObj;
+  }
   
   if (Array.isArray(obj)) {
     stringifiedObj = '[';
@@ -24,7 +36,6 @@ var stringifyJSON = function(obj) {
   
   // Iterate through each property in the object
   _.each(obj, function(value, key, collection) {
-    // add key in quotations
     if (typeof value !== "undefined" && !Array.isArray(collection)) {
       stringifiedObj = stringifiedObj + '"' + key + '":';
     }
