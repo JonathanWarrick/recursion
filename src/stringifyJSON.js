@@ -19,21 +19,22 @@ var stringifyJSON = function(obj) {
     
     // create switch statement to handle various types of data
     var typeOfVal = typeof value;
+    console.log(typeOfVal);
+    console.log(value);
+    console.log(key);
+    console.log(collection);
+
     switch(typeOfVal) {
       case "string":
         stringifiedObj = stringifiedObj + '"' + value + '"';
         break;
 
-      case "number":
-        stringifiedObj = stringifiedObj + value;
-        break;
-
       case "object":
-        stringifyJSON(collection);
+        stringifiedObj = stringifiedObj + stringifyJSON(value);
         break;
 
       default:
-        stringifiedObj = stringifiedObj;
+        stringifiedObj = stringifiedObj + value;
     }
 
     if (key === Object.keys(collection)[Object.keys(collection).length - 1]) {
@@ -43,6 +44,8 @@ var stringifyJSON = function(obj) {
     else {
       stringifiedObj = stringifiedObj + ',';
     }
+
+    console.log(stringifiedObj);
   });
  
   return stringifiedObj;
