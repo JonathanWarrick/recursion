@@ -15,14 +15,12 @@ var stringifyJSON = function(obj) {
   // Iterate through each property in the object
   _.each(obj, function(value, key, collection) {
     // add key in quotations
-    stringifiedObj = stringifiedObj + '"' + key + '":';
+    if (typeof value !== "undefined") {
+      stringifiedObj = stringifiedObj + '"' + key + '":';
+    }
     
     // create switch statement to handle various types of data
     var typeOfVal = typeof value;
-    console.log(typeOfVal);
-    console.log(value);
-    console.log(key);
-    console.log(collection);
 
     switch(typeOfVal) {
       case "string":
@@ -30,9 +28,13 @@ var stringifyJSON = function(obj) {
         break;
 
       case "object":
-        stringifiedObj = stringifiedObj + stringifyJSON(value);
+          stringifiedObj = stringifiedObj + stringifyJSON(value);
         break;
 
+      case "undefined":
+        break;
+
+      // case for numbers, booleans 
       default:
         stringifiedObj = stringifiedObj + value;
     }
@@ -44,8 +46,6 @@ var stringifyJSON = function(obj) {
     else {
       stringifiedObj = stringifiedObj + ',';
     }
-
-    console.log(stringifiedObj);
   });
  
   return stringifiedObj;
