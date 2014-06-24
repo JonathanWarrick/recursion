@@ -11,17 +11,17 @@
 var stringifyJSON = function(obj) {
   // your code goes here
   var stringifiedObj = '{';
-  var objLength;
-  if (Array.isArray(obj)) {
-  	objLength = obj.length;
-  }
-
-  else {
-  	objLength = Object.keys(obj).length;
-  }
 
   _.each(obj, function(value, key, collection) { 	
-  	stringifiedObj = stringifiedObj + '"' + key + '":"' + value + '",';
+  	stringifiedObj = stringifiedObj + '"' + key + '":"' + value + '"';
+ 
+  	if (key === Object.keys(collection)[Object.keys(collection).length - 1]) {
+  		stringifiedObj = stringifiedObj + '}';
+  	}
+
+  	else {
+  		stringifiedObj = stringifiedObj + ',';
+  	}
   });
 
   return stringifiedObj;
