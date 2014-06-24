@@ -10,12 +10,16 @@
 
 var stringifyJSON = function(obj) {
   // Create starting point for string
+  var stringifiedObj = '';
+  
   if (Array.isArray(obj)) {
-    var stringifiedObj = '[';
+    stringifiedObj = '[';
   }
 
   else {
-    var stringifiedObj = '{';
+    if (obj !== null) {
+      stringifiedObj = '{';
+    }
   }
   
   // Iterate through each property in the object
@@ -34,7 +38,14 @@ var stringifyJSON = function(obj) {
         break;
 
       case "object":
-          stringifiedObj = stringifiedObj + stringifyJSON(value);
+        if (value === null) {
+          stringifiedObj = stringifiedObj + "null";
+        }
+
+        else if (value === {}) {
+
+        }
+        stringifiedObj = stringifiedObj + stringifyJSON(value);
         break;
 
       case "undefined":
@@ -46,14 +57,17 @@ var stringifyJSON = function(obj) {
     }
 
     if (key === Object.keys(collection)[Object.keys(collection).length - 1]) {
-        if (Array.isArray(obj)) {
+        if (Array.isArray(collection)) {
           stringifiedObj = stringifiedObj + ']';
         }
 
         else {
           stringifiedObj = stringifiedObj + '}';
         }
-      
+    }
+
+    else if (typeOfVal === "undefined") {
+      stringifiedObj = stringifiedObj;
     }
 
     else {
