@@ -14,13 +14,13 @@ var getElementsByClassName = function(className){
   var checkForClass = function(element) {
     var childNodes = element.children;
     
-    _.each(childNodes, function(value, key, collection) {
-      console.log(collection[key]);
+    for (var i = 0; i < childNodes.length; i++) {
+      results.push(childNodes[i]);
 
-      if (collection[key].hasChildren) {
-        checkForClass(collection[i]);
+      if (childNodes[i].children.length > 0) {
+        checkForClass(childNodes[i]);
       }
-    });
+    }
   }
   
   checkForClass(document);
