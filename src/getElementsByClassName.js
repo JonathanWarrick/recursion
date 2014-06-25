@@ -15,7 +15,9 @@ var getElementsByClassName = function(className){
     var childNodes = element.children;
     
     for (var i = 0; i < childNodes.length; i++) {
-      results.push(childNodes[i]);
+      if (childNodes[i].classList.contains(className)) {
+        results.push(childNodes[i]);
+      }
 
       if (childNodes[i].children.length > 0) {
         checkForClass(childNodes[i]);
