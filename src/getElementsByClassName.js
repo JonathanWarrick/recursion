@@ -7,7 +7,10 @@
 // Want to return an array-like object of child elements which have the given class name.
 // Can be used starting with document, to return ALL elements with class name, or on a specific element, to get direct descendants.
 
-var getElementsByClassName = function(className){
+var getElementsByClassName = function(className, startingElement){
+  // create default starting point, if none provided
+  startingElement || (startingElement = document);
+  
   // create empty array to store elements with className
   var results = [];
 
@@ -29,7 +32,7 @@ var getElementsByClassName = function(className){
   }
   
   // kick off initial run
-  checkForClass(document);
+  checkForClass(startingElement);
 
   // return elements with className
   return results;
