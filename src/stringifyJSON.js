@@ -22,37 +22,34 @@ var stringifyJSON = function(obj) {
     return stringifiedObj;
   }
 
-  else if (typeof obj === "undefined") {
-    stringifiedObj = stringifiedObj;
-    return stringifiedObj;
-  }
-
-  else if (typeof obj === "object" && obj === null) {
-    stringifiedObj = "null";
+  else if (obj === null) {
+    stringifiedObj = stringifiedObj + "null";
     return stringifiedObj;
   }
   
-  if (Array.isArray(obj)) {
+  else if (Array.isArray(obj)) {
     if (obj.length === 0) {
       stringifiedObj = '[]';
       return stringifiedObj;
     }
     stringifiedObj = '[';
   }
+ 
+  else if (typeof obj === "object" && obj !== null) {
+    if (Object.keys(obj).length === 0) {
+      stringifiedObj = '{}';
+      return stringifiedObj;
+    }
+    stringifiedObj = '{';
+  }
 
   else {
-    if (obj !== null) {
-      if (Object.keys(obj).length === 0) {
-        stringifiedObj = '{}';
-        return stringifiedObj;
-      }
-      stringifiedObj = '{';
-    }
+    return stringifiedObj;
   }
   
   // Iterate through each property in the object
   _.each(obj, function(value, key, collection) {
-    if (typeof value !== "undefined" && !Array.isArray(collection)) {
+    if (typeof value !== "undefined" && typeof value !== "function" && !Array.isArray(collection)) {
       stringifiedObj = stringifiedObj + '"' + key + '":';
     }
 
@@ -66,16 +63,15 @@ var stringifyJSON = function(obj) {
 
       case "object":
         if (value === null) {
-          stringifiedObj = stringifiedObj + "null";
-        }
-
-        else if (value === {}) {
-
+          stringifiedObj = stringifiedObj;
         }
         stringifiedObj = stringifiedObj + stringifyJSON(value);
         break;
 
       case "undefined":
+        break;
+
+      case "function":
         break;
 
       // case for numbers, booleans 
@@ -87,7 +83,7 @@ var stringifyJSON = function(obj) {
       stringifiedObj = stringifiedObj + '}';
     }
 
-    else if (typeOfVal === "undefined") {
+    else if (typeOfVal === "undefined" || typeOfVal === "function") {
       stringifiedObj = stringifiedObj;
     }
 
@@ -99,6 +95,6 @@ var stringifyJSON = function(obj) {
       stringifiedObj = stringifiedObj + ',';
     }
   });
- 
+
   return stringifiedObj;
 };
