@@ -10,19 +10,19 @@
 var getElementsByClassName = function(className){
   // your code here
   var results = [];
-  function checkForClass(element) {
-  	var childNodes = element.childNodes;
-  	_.each(childNodes, function(value, key, collection) {
-  		if (_.contains(collection[key].classList, className)) {
-  			results.push(collection);
-  		};
 
-  		if (collection.childNodes.length > 0) {
-  			checkForClass(collection);
-  		}
-  	});
+  var checkForClass = function(element) {
+    var childNodes = element.children;
+    
+    _.each(childNodes, function(value, key, collection) {
+      console.log(collection[key]);
+
+      if (collection[key].hasChildren) {
+        checkForClass(collection[i]);
+      }
+    });
   }
-
+  
   checkForClass(document);
   return results;
 };
