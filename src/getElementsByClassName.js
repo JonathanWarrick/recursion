@@ -8,23 +8,29 @@
 // Can be used starting with document, to return ALL elements with class name, or on a specific element, to get direct descendants.
 
 var getElementsByClassName = function(className){
-  // your code here
+  // create empty array to store elements with className
   var results = [];
 
+  // create inner recursive function
   var checkForClass = function(element) {
     var childNodes = element.children;
-    
-    for (var i = 0; i < childNodes.length; i++) {
-      if (childNodes[i].classList.contains(className)) {
-        results.push(childNodes[i]);
+
+    // loop through each element and its nodes to check for className, pushing to results if there is a match
+    _.each(childNodes, function(value) {
+      if (value.classList.contains(className)) {
+        results.push(value);
       }
 
-      if (childNodes[i].children.length > 0) {
-        checkForClass(childNodes[i]);
+      // if element has children, recurse.
+      if (value.children.length > 0) {
+        checkForClass(value);
       }
-    }
+    });
   }
   
+  // kick off initial run
   checkForClass(document);
+
+  // return elements with className
   return results;
 };
