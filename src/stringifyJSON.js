@@ -14,22 +14,38 @@ var stringifyJSON = function(obj) {
 
   if (typeof obj === "number" || typeof obj === "boolean") {
     stringifiedObj = stringifiedObj + obj;
+    return stringifiedObj;
   }
 
-  else if (typeof obj === "string" || (typeof obj === "object" && obj === null)) {
+  else if (typeof obj === "string") {
     stringifiedObj = stringifiedObj + '"' + obj + '"';
+    return stringifiedObj;
   }
 
   else if (typeof obj === "undefined") {
     stringifiedObj = stringifiedObj;
+    return stringifiedObj;
+  }
+
+  else if (typeof obj === "object" && obj === null) {
+    stringifiedObj = "null";
+    return stringifiedObj;
   }
   
   if (Array.isArray(obj)) {
+    if (obj.length === 0) {
+      stringifiedObj = '[]';
+      return stringifiedObj;
+    }
     stringifiedObj = '[';
   }
 
   else {
     if (obj !== null) {
+      if (Object.keys(obj).length === 0) {
+        stringifiedObj = '{}';
+        return stringifiedObj;
+      }
       stringifiedObj = '{';
     }
   }
@@ -75,7 +91,7 @@ var stringifyJSON = function(obj) {
       stringifiedObj = stringifiedObj;
     }
 
-    else if (Array.isArray(collection) && key === collection.length - 1) {
+    else if (Array.isArray(collection) && ((key === collection.length - 1) || collection.length === 0)) {
       stringifiedObj = stringifiedObj + ']';
     }
 
