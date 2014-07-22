@@ -9,7 +9,6 @@
 // Returns a string!
 
 var stringifyJSON = function(obj) {
-  console.log(obj);
   // case for arrays
   if (Array.isArray(obj)) {
     var results = [];
