@@ -9,92 +9,31 @@
 // Returns a string!
 
 var stringifyJSON = function(obj) {
-  // Create starting point for string
-  var stringifiedObj = '';
+  console.log(obj);
+  // case for arrays
+  if (Array.isArray(obj)) {
+    var results = [];
 
-  if (typeof obj === "number" || typeof obj === "boolean") {
-    stringifiedObj = stringifiedObj + obj;
-    return stringifiedObj;
+    for (var i = 0; i < obj.length; i++) {
+      results.push(stringifyJSON(obj[i]));
+    }
+
+    return '[' + results + ']';
+  } else if(obj && typeof obj === "object") {
+    var results = [];
+
+    for (var key in obj) {
+      if (typeof obj[key] === "function" || obj[key] === undefined) {
+        continue;
+      }
+      results.push(stringifyJSON(key) + ":" + stringifyJSON(obj[key]));
+    }
+    
+    return '{' + results + '}';
+  } else if (typeof obj === "string") {
+    return '"' + obj + '"';
+  } else {
+    // case for "base" objects
+    return '' + obj;
   }
-
-  else if (typeof obj === "string") {
-    stringifiedObj = stringifiedObj + '"' + obj + '"';
-    return stringifiedObj;
-  }
-
-  else if (obj === null) {
-    stringifiedObj = stringifiedObj + "null";
-    return stringifiedObj;
-  }
-  
-  else if (Array.isArray(obj)) {
-    if (obj.length === 0) {
-      stringifiedObj = '[]';
-      return stringifiedObj;
-    }
-    stringifiedObj = '[';
-  }
- 
-  else if (typeof obj === "object" && obj !== null) {
-    if (Object.keys(obj).length === 0) {
-      stringifiedObj = '{}';
-      return stringifiedObj;
-    }
-    stringifiedObj = '{';
-  }
-
-  else {
-    return stringifiedObj;
-  }
-  
-  // Iterate through each property in the object
-  _.each(obj, function(value, key, collection) {
-    if (typeof value !== "undefined" && typeof value !== "function" && !Array.isArray(collection)) {
-      stringifiedObj = stringifiedObj + '"' + key + '":';
-    }
-
-    // create switch statement to handle various types of data
-    var typeOfVal = typeof value;
-
-    switch(typeOfVal) {
-      case "string":
-        stringifiedObj = stringifiedObj + '"' + value + '"';
-        break;
-
-      case "object":
-        if (value === null) {
-          stringifiedObj = stringifiedObj;
-        }
-        stringifiedObj = stringifiedObj + stringifyJSON(value);
-        break;
-
-      case "undefined":
-        break;
-
-      case "function":
-        break;
-
-      // case for numbers, booleans 
-      default:
-        stringifiedObj = stringifiedObj + value;
-    }
-
-    if (key === Object.keys(collection)[Object.keys(collection).length - 1]) {
-      stringifiedObj = stringifiedObj + '}';
-    }
-
-    else if (typeOfVal === "undefined" || typeOfVal === "function") {
-      stringifiedObj = stringifiedObj;
-    }
-
-    else if (Array.isArray(collection) && ((key === collection.length - 1) || collection.length === 0)) {
-      stringifiedObj = stringifiedObj + ']';
-    }
-
-    else {  
-      stringifiedObj = stringifiedObj + ',';
-    }
-  });
-
-  return stringifiedObj;
 };
